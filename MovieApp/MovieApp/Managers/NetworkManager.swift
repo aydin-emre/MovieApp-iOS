@@ -82,8 +82,8 @@ public class NetworkManager {
         }
     }
 
-    func movieList(page: Int, completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
-        let parameters = ["sort_by": "vote_average.desc", "page": String(page)]
+    func movies(page: Int, completion: @escaping (Result<MovieResponse, NetworkError>) -> Void) {
+        let parameters = ["sort_by": "popularity.desc", "page": String(page)]
         request(of: MovieResponse.self, forPath: movieListPath, method: .get, parameters: parameters, showLoadingView: true) { response in
             if let response = response as? MovieResponse {
                 completion(.success(response))
