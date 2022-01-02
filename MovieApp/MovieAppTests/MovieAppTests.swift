@@ -18,16 +18,24 @@ class MovieAppTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    func testGetMovies() throws {
+        let expectation = expectation(description: "Service Call")
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        NetworkManager.shared.movies(page: 1) { result in
+            switch result {
+            case .success(let response):
+                if response.results != nil {
+                    XCTAssert(true)
+                } else {
+                    XCTFail("No source found!", file: #filePath, line: #line)
+                }
+            case .failure(let error):
+                XCTFail(error.localizedDescription, file: #filePath, line: #line)
+            }
+            expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 1)
     }
 
 }
