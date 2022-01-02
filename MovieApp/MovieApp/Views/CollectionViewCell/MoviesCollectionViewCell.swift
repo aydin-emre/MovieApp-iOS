@@ -38,15 +38,17 @@ class MoviesCollectionViewCell: UICollectionViewCell {
 
     func configure(with movie: Movie) {
         self.movie = movie
-        if let url = URL(string: posterImageUrlPrefix+movie.posterPath) {
-            imageView.sd_setImage(with: url, completed: nil)
+        DispatchQueue.global(qos: .background).async {
+            if let url = URL(string: posterImageUrlPrefix+movie.posterPath) {
+                DispatchQueue.main.async {
+                    self.imageView.sd_setImage(with: url, completed: nil)
+                }
+            }
         }
         titleLabel.text = movie.title
         dateLabel.text = movie.releaseDate
         rateLabel.text = String(movie.voteAverage)
-        DatabaseManager.shared.checkFavorites(movie: movie) { contains in
-            self.isFavorite = contains
-        }
+        isFavorite = DatabaseManager.shared.checkFavorites(movie: movie)
     }
 
     @objc func favoriteButtonClicked() {

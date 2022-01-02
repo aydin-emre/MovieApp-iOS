@@ -25,18 +25,6 @@ class MoviesViewController: BaseViewController {
         // Do any additional setup after loading the view.
         setupBindings()
         moviesViewModel.requestData()
-
-        DispatchQueue.global(qos: .background).async {
-            autoreleasepool {
-                do {
-                    if let realm = try? Realm() {
-                        print("-*-*-*-*-*-*-*-*")
-                        print(realm.objects(Movie.self))
-                        print("-*-*-*-*-*-*-*-*")
-                    }
-                }
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

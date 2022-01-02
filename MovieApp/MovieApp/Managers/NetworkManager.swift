@@ -52,9 +52,9 @@ public class NetworkManager {
             }
         }
 
-        print("\n---------- URL: ----------\n \(baseURL+path)\n--------------------------\n")
-        print("\n------- HEADERS: -------\n \(inlineHeaders)\n--------------------------\n")
-        print("\n----- PARAMETERS: -----\n \(inlineParameters)\n--------------------------\n")
+//        print("\n---------- URL: ----------\n \(baseURL+path)\n--------------------------\n")
+//        print("\n------- HEADERS: -------\n \(inlineHeaders)\n--------------------------\n")
+//        print("\n----- PARAMETERS: -----\n \(inlineParameters)\n--------------------------\n")
 
         if let networkReachabilityManager = NetworkReachabilityManager(), networkReachabilityManager.isReachable {
             AF.request(baseURL+path, method: method, parameters: inlineParameters, encoding: encoding, headers: inlineHeaders)
@@ -68,10 +68,10 @@ public class NetworkManager {
                 case .success(_):
                     guard let responseValue = response.value else { return }
                     completion(responseValue)
-                    print("\n------- RESPONSE: ------\n \(responseValue)\n--------------------------\n")
+//                    print("\n------- RESPONSE: ------\n \(responseValue)\n--------------------------\n")
                 case .failure(_):
                     completion(nil)
-                    print("\n-------- ERROR: --------\n \(String(describing: response.error))\n-------------------------\n")
+//                    print("\n-------- ERROR: --------\n \(String(describing: response.error))\n-------------------------\n")
                 }
             }
         } else if let eaAlert = eaAlert {
