@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 class MoviesViewController: BaseViewController {
 
@@ -24,6 +25,23 @@ class MoviesViewController: BaseViewController {
         // Do any additional setup after loading the view.
         setupBindings()
         moviesViewModel.requestData()
+
+        DispatchQueue.global(qos: .background).async {
+            autoreleasepool {
+                do {
+                    if let realm = try? Realm() {
+                        print("-*-*-*-*-*-*-*-*")
+                        print(realm.objects(Movie.self))
+                        print("-*-*-*-*-*-*-*-*")
+                    }
+                }
+            }
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
     }
 
     func setupBindings() {
@@ -67,13 +85,16 @@ class MoviesViewController: BaseViewController {
         // CollectionView Selections
         collectionView
             .rx
-            .modelSelected(Movie.self)
-            .subscribe(onNext: { [unowned self] model in
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                if let headlinesViewController = storyBoard.instantiateViewController(withIdentifier: "MovieDetailViewController")
-                    as? MovieDetailViewController {
-                    headlinesViewController.movie = model
-                    self.navigationController?.pushViewController(headlinesViewController, animated: true)
+            .modelAndIndexSelected(Movie.self)
+            .subscribe(onNext: { [unowned self] model, indexPath in
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? MoviesCollectionViewCell {
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let headlinesViewController = storyBoard.instantiateViewController(withIdentifier: "MovieDetailViewController")
+                        as? MovieDetailViewController {
+                        headlinesViewController.movie = model
+                        headlinesViewController.isFavorite = cell.isFavorite
+                        self.navigationController?.pushViewController(headlinesViewController, animated: true)
+                    }
                 }
             }).disposed(by: disposeBag)
 

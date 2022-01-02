@@ -26,7 +26,7 @@ public class NetworkManager {
         var viewLoading: UIView!
         if showLoadingView {
             viewLoading = loadingView()
-            if let window = UIApplication.shared.keyWindow {
+            if let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first {
                 window.addSubview(viewLoading)
             }
 
@@ -94,7 +94,7 @@ public class NetworkManager {
     }
 
     func loadingView() -> UIView {
-        if let window = UIApplication.shared.keyWindow {
+        if let window = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first {
             let superview = UIView(frame: window.bounds)
             superview.backgroundColor = UIColor(white: 1, alpha: 0.5)
 

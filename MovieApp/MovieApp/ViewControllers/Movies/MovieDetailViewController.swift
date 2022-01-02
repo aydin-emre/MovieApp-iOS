@@ -16,7 +16,16 @@ class MovieDetailViewController: BaseViewController {
     @IBOutlet weak var voteLabel: UILabel!
     @IBOutlet weak var overviewLabel: UILabel!
 
+    private lazy var favoriteBarButtonItem: UIBarButtonItem = {
+        return UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(favoriteButtonClicked))
+    }()
+
     var movie: Movie?
+    public var isFavorite: Bool = false {
+        didSet {
+            favoriteBarButtonItem.image = isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +36,8 @@ class MovieDetailViewController: BaseViewController {
 
     func setupViews() {
         guard let movie = movie else { return }
+
+        self.navigationItem.rightBarButtonItem  = favoriteBarButtonItem
 
         if let url = URL(string: backdropImageUrlPrefix+movie.backdropPath) {
             imageView.sd_setImage(with: url, placeholderImage: nil, options: .continueInBackground) { _, _, _ in
@@ -41,6 +52,11 @@ class MovieDetailViewController: BaseViewController {
         dateLabel.text = "\(movie.releaseDate) • (\(movie.originalLanguage))"
         voteLabel.text = "\(movie.voteAverage) / \(movie.voteCount)"
         overviewLabel.text = movie.overview
+    }
+
+    @objc func favoriteButtonClicked() {
+        isFavorite ? DatabaseManager.shared.removeFromFavorites(movie: movie) : DatabaseManager.shared.addToFavorites(movie: movie)
+        isFavorite = !isFavorite
     }
 
 }

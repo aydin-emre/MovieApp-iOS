@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Movie: Codable {
+class Movie: Object, Codable {
 
     let adult: Bool
     let backdropPath: String
     let genreIDS: [Int]
-    let id: Int
+    @Persisted(primaryKey: true) var id: Int?
     let mediaType: MediaType
     let originalLanguage: String
     let originalTitle, overview: String
