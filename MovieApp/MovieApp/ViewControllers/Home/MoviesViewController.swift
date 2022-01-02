@@ -12,6 +12,8 @@ import RxCocoa
 class MoviesViewController: BaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var indicatorContainerView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var moviesViewModel = MoviesViewModel()
     let disposeBag = DisposeBag()
@@ -54,13 +56,22 @@ class MoviesViewController: BaseViewController {
         collectionView
             .rx
             .didScroll
-            .subscribe { [weak self] _ in
-                guard let self = self else { return }
+            .subscribe { [unowned self] _ in
                 if self.collectionView.contentOffset.y > (self.collectionView.contentSize.height - self.collectionView.frame.size.height - 100) {
                     self.moviesViewModel.requestData()
                 }
             }
             .disposed(by: disposeBag)
+
+        // Handle Loading View
+        moviesViewModel
+            .isLoading
+            .subscribe { [unowned self] avaliable in
+            guard let avaliable = avaliable.element else { return }
+                self.indicatorContainerView.isHidden = !avaliable
+                avaliable ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
+        }
+        .disposed(by: disposeBag)
     }
 
 }

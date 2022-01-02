@@ -13,6 +13,7 @@ class MoviesViewModel {
 
     public let sources: PublishSubject<[Movie]> = PublishSubject()
     public let error: PublishSubject<String> = PublishSubject()
+    public let isLoading: PublishSubject<Bool> = PublishSubject()
 
     private var movies = [Movie]()
     private var page = 1
@@ -23,6 +24,7 @@ class MoviesViewModel {
     public func requestData() {
         if isPaginationRequestStillResume || isPaginationDone { return }
         isPaginationRequestStillResume = true
+        isLoading.onNext(page != 1)
 
         NetworkManager.shared.movies(page: page) { result in
             switch result {
@@ -35,6 +37,7 @@ class MoviesViewModel {
                         self.isPaginationDone = true
                     }
                     self.isPaginationRequestStillResume = false
+                    self.isLoading.onNext(false)
                     self.page += 1
                     self.movies += results
                     self.sources.onNext(self.movies)
