@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 enum MediaType: String, Codable, CaseIterable {
 
     case movie

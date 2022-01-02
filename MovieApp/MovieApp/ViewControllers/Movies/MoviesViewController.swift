@@ -20,6 +20,7 @@ class MoviesViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Movies"
         // Do any additional setup after loading the view.
         setupBindings()
         moviesViewModel.requestData()
@@ -47,12 +48,12 @@ class MoviesViewController: BaseViewController {
             }.disposed(by: disposeBag)
 
         let flowLayout = UICollectionViewFlowLayout()
-        let width = (collectionView.frame.size.width-4) / 2
+        let width = (view.frame.size.width/2) - 8
         let height = width*3/2 + 80
         flowLayout.itemSize = CGSize(width: width, height: height)
         collectionView.setCollectionViewLayout(flowLayout, animated: true)
 
-        // For CollectionView Pagination
+        // CollectionView Pagination
         collectionView
             .rx
             .didScroll
@@ -62,6 +63,19 @@ class MoviesViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+
+        // CollectionView Selections
+        collectionView
+            .rx
+            .modelSelected(Movie.self)
+            .subscribe(onNext: { [unowned self] model in
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                if let headlinesViewController = storyBoard.instantiateViewController(withIdentifier: "MovieDetailViewController")
+                    as? MovieDetailViewController {
+                    headlinesViewController.movie = model
+                    self.navigationController?.pushViewController(headlinesViewController, animated: true)
+                }
+            }).disposed(by: disposeBag)
 
         // Handle Loading View
         moviesViewModel
