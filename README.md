@@ -2,7 +2,7 @@
 Example Movie App written in Swift with RxSwift and RxCocoa
 
 <h3>Overview</h3>
-This is an example app written by Emre AYDIN on 12.27.2022<br>
+This is an example app written by Emre AYDIN on 01.02.2022<br>
 <ul>
     <li>MVVM Design Pattern used with Reactive programming.</li>
     <li>https://www.themoviedb.org/ used for API calls.</li>
