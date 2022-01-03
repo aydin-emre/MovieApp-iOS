@@ -48,12 +48,21 @@ class MoviesCollectionViewCell: UICollectionViewCell {
         titleLabel.text = movie.title
         dateLabel.text = movie.releaseDate
         rateLabel.text = String(movie.voteAverage)
-        isFavorite = DatabaseManager.shared.checkFavorites(movie: movie)
+        DatabaseManager.shared.checkFavorites(movie: movie) { isFavorite in
+            self.isFavorite = isFavorite
+        }
     }
 
     @objc func favoriteButtonClicked() {
-        isFavorite ? DatabaseManager.shared.removeFromFavorites(movie: movie) : DatabaseManager.shared.addToFavorites(movie: movie)
-        isFavorite = !isFavorite
+        if isFavorite {
+            DatabaseManager.shared.removeFromFavorites(movie: movie, completion: { success in
+                self.isFavorite = false
+            })
+        } else {
+            DatabaseManager.shared.addToFavorites(movie: movie, completion: { success in
+                self.isFavorite = true
+            })
+        }
     }
 
 }

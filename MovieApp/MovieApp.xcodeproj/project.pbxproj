@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06B184872782D74800DF36F3 /* RealmExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B184862782D74800DF36F3 /* RealmExtension.swift */; };
 		383B55548CE0E5235D3093F8 /* Pods_MovieApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79F4AD1BF03F0590CAB7FE6 /* Pods_MovieApp.framework */; };
 		6B7DCFBA36BAE6BDA7CE14F9 /* Pods_MovieAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A28EF529F186F2312A69DE69 /* Pods_MovieAppTests.framework */; };
 		A35A858ABA3669786C28D773 /* Pods_MovieApp_MovieAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE5E4EDCA1AF8B125937718 /* Pods_MovieApp_MovieAppUITests.framework */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06B184862782D74800DF36F3 /* RealmExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmExtension.swift; sourceTree = "<group>"; };
 		0DE5E4EDCA1AF8B125937718 /* Pods_MovieApp_MovieAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieApp_MovieAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		10E730C84A3374AE107F0521 /* Pods-MovieApp-MovieAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieApp-MovieAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-MovieApp-MovieAppUITests/Pods-MovieApp-MovieAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DC85FA027400CDC3475AD9C /* Pods-MovieAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieAppTests.release.xcconfig"; path = "Target Support Files/Pods-MovieAppTests/Pods-MovieAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				C38FA74027806F2100DAB353 /* ReactiveExtension.swift */,
 				C38FA74227806F3500DAB353 /* StringExtension.swift */,
 				C38FA73E27806F0900DAB353 /* UIViewExtension.swift */,
+				06B184862782D74800DF36F3 /* RealmExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 				C38FA72F277F94E600DAB353 /* MovieResponse.swift in Sources */,
 				C3DA789C277F26FF0026A824 /* AppDelegate.swift in Sources */,
 				C38FA74327806F3500DAB353 /* StringExtension.swift in Sources */,
+				06B184872782D74800DF36F3 /* RealmExtension.swift in Sources */,
 				C38FA72D277F94B800DAB353 /* MoviesViewController.swift in Sources */,
 				C38FA72A277F949700DAB353 /* BaseViewController.swift in Sources */,
 				C3DA789E277F26FF0026A824 /* SceneDelegate.swift in Sources */,

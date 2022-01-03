@@ -13,40 +13,74 @@ public class DatabaseManager {
     // MARK: - Shared Manager
 
     static var shared = DatabaseManager()
+    private let global = DispatchQueue.global(qos: .background)
 
     func addToFavorites(movie: Movie?, completion: @escaping (Bool) -> Void = { _ in }) {
-        do {
-            if let realm = try? Realm(),
-               let movie = movie {
-                try? realm.write {
-                    realm.add(movie)
-                }
-            }
-        }
-    }
-
-    func removeFromFavorites(movie: Movie?) {
-        do {
-            if let realm = try? Realm(),
-               let movie = movie {
-                let objects = realm.objects(Movie.self)
-                if objects.isInvalidated { return }
-                if let movieToDelete = objects.filter({ $0.id == movie.id }).first {
-                    try? realm.write {
-                        realm.delete(movieToDelete)
+        global.sync {
+            autoreleasepool {
+                do {
+                    if let realm = try? Realm(),
+                       let movie = movie {
+                        try? realm.write {
+                            realm.add(movie.detached())
+                        }
+                        DispatchQueue.main.async {
+                            completion(true)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion(false)
+                        }
                     }
                 }
             }
         }
     }
 
-    func checkFavorites(movie: Movie?) -> Bool {
-        do {
-            if let realm = try? Realm(),
-               let movie = movie {
-                return !realm.objects(Movie.self).filter({ $0.id == movie.id }).isEmpty
-            } else {
-                return false
+    func removeFromFavorites(movie: Movie?, completion: @escaping (Bool) -> Void = { _ in }) {
+        global.sync {
+            autoreleasepool {
+                do {
+                    if let realm = try? Realm(),
+                       let movie = movie {
+                        if let movieToDelete = realm.objects(Movie.self).filter({ $0.id == movie.id }).first {
+                            try? realm.write {
+                                realm.delete(movieToDelete)
+                            }
+                            DispatchQueue.main.async {
+                                completion(true)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                completion(false)
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion(false)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func checkFavorites(movie: Movie?, completion: @escaping (Bool) -> Void = { _ in }) {
+        global.sync {
+            autoreleasepool {
+                do {
+                    if let realm = try? Realm(),
+                       let movie = movie {
+                        let contains = !realm.objects(Movie.self).filter({ $0.id == movie.id }).isEmpty
+                        DispatchQueue.main.async {
+                            completion(contains)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            completion(false)
+                        }
+                    }
+                }
             }
         }
     }
