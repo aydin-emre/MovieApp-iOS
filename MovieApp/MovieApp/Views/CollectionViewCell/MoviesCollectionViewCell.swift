@@ -56,11 +56,15 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     @objc func favoriteButtonClicked() {
         if isFavorite {
             DatabaseManager.shared.removeFromFavorites(movie: movie, completion: { success in
-                self.isFavorite = false
+                if success {
+                    self.isFavorite = false
+                }
             })
         } else {
             DatabaseManager.shared.addToFavorites(movie: movie, completion: { success in
-                self.isFavorite = true
+                if success {
+                    self.isFavorite = true
+                }
             })
         }
     }
