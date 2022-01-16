@@ -12,7 +12,6 @@ import EAAlert
 private let baseURL: String = "https://api.themoviedb.org/4/"
 
 private let movieListPath = "list/1/"
-private let topHeadlinesPath = "top-headlines"
 
 public class NetworkManager {
 

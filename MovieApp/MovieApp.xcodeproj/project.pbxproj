@@ -250,8 +250,8 @@
 		C3DA78CE277F2AD80026A824 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				C38FA724277F945200DAB353 /* NetworkError.swift */,
 				C38FA726277F946400DAB353 /* Alert.swift */,
+				C38FA724277F945200DAB353 /* NetworkError.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
